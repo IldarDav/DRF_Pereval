@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 from rest_framework import routers
-from fstr.views import PerevalViewSet
+from fstr.views import PerevalViewSet, UsersViewSet
 
 router = routers.DefaultRouter()
 router.register(r'pereval', PerevalViewSet)
@@ -26,5 +27,10 @@ router.register(r'pereval', PerevalViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-
+    path('api/swagger-ui/', TemplateView.as_view(
+       template_name='swagger-ui.html',
+       extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
 ]
+
+

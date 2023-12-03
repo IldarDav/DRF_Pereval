@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Users(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     phone = models.TextField(max_length=255, verbose_name='Контактный телефон')
     first_name = models.TextField(max_length=255, verbose_name='Имя')
     last_name = models.TextField(max_length=255, verbose_name='Фамилия')
@@ -26,9 +26,14 @@ class Level(models.Model):
 
 
 class Images(models.Model):
+    pereval = models.ForeignKey('Pereval', related_name='images', on_delete=models.CASCADE, default='1')
+    data = models.URLField(verbose_name='Изображение', null=True, blank=True)
+    title = models.CharField(max_length=255, verbose_name='Название')
     image = models.ImageField(upload_to='media/', verbose_name='Изображение')
-    title = models.CharField(max_length=128)
     add_time = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.pk} {self.title}'
 
 
 class Pereval(models.Model):
